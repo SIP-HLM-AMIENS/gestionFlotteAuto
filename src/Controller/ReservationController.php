@@ -22,10 +22,21 @@ class ReservationController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            return $this->render('reservation/reservation.html.twig', [
-                'form' => $form->createView(),
-                'charger' => true,
-            ]);
+
+
+            if($form->get('load')->isClicked())
+            {
+                return $this->render('reservation/reservation.html.twig', [
+                    'form' => $form->createView(),
+                    'charger' => true,
+                ]);
+            }
+            elseif($form->get('save')->isClicked())
+            {
+                return $this->redirectToRoute('tableauDeBord');
+            }
+
+
         }
 
         return $this->render('reservation/reservation.html.twig', [
