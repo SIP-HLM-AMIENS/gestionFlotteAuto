@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reservation{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <br />
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="text-center">Réservation</h1>
+        </div>
+    </div>
+{{ form_start(form) }}
+    <br />
+    <div class="row">
+        <h4>Selectionnez vos horaires :</h4>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-6">
+            {{form_row(form.debut,  {'label': 'Date :'})}}
+            <br/>
+            <label>Heure :</label>
+            <input type="text" size="2">:
+            <input type="text" size="2">
+        </div>
+        <div class="col-lg-6">
+            {{form_row(form.fin, {'label': 'Date :'})}}
+            <br/>
+            <label>Heure :</label>
+            <input type="text" size="2">:
+            <input type="text" size="2">
+        </div>
+    </div>
+
+    <!--  Chargement     -->
+    {% if charger == true %}
+    <div class="row">
+        {{form_row(form.load.setRendered())}}
+    </div>
+    <br/>
+    <hr></hr>
+    <br/>
+    <div class="row">
+        <div class="col-lg-12">
+            <p>Voitures de service disponible :</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            {{form_row(form.voiture)}}
+        </div>
+    </div>
+    {% else %}
+    <div class="row">
+        {{form_row(form.load)}}
+    </div>
+    <br/>
+    <div class="row">
+        {{form_row(form.voiture.setRendered())}}
+    </div>
+    {% endif %}
+    <!--                                                   -->
+
+    <div class="row">
+        {{form_row(form.personne.setRendered())}}
+    </div>
+</div>
+{{ form_end(form) }}
+
+{% endblock %}
+{% block javascripts %}
+{% endblock %}
