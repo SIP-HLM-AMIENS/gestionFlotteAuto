@@ -13,7 +13,7 @@
     <br />
     <div class="row" style="min-height:200px">
         <div class="col-lg-4">
-            <h3 class="text-center">Vos réservations</h3>
+            <h3 class="text-center">Prochaines réservations</h3>
             {% for resa in reservations %}
             <div class="card border-primary mb-3" style="max-width: 20rem;">
                 <div class="card-header">Reservation n°{{resa.id}}</div>
@@ -25,13 +25,12 @@
             </div>
             {% endfor %}
         </div>
-        <div class="col-lg-4 bg-light">
-            <h3 class="text-center">Vos déclarations</h3>
-        </div>
-        <div class="col-lg-4">
-            <h3 class="text-center">Global</h3>
+        <div class='col-lg-8'>
+             <h3 class="text-center">Agenda</h3>
+            {% include '@FullCalendar/Calendar/calendar.html.twig' %}
         </div>
     </div>
+
 </div>
 
 {% endblock %}

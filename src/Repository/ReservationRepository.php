@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+
 use App\Entity\Reservation;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Reservation|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,6 +19,28 @@ class ReservationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Reservation::class);
     }
+
+    /**
+     * @param $user
+     * @return Reservation[]
+     */
+    public function findFutureReservationByUser($user): array
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->andWhere('r.personne = :user')
+            ->andWhere('r.etat = 0')
+            ->andWhere('r.debut > :date')
+            ->setParameter('user', $user)
+            ->setParameter('date', new \DateTime('NOW'))
+            ->orderBy('r.debut', 'ASC')
+            ->getQuery();
+
+        return $qb->execute();
+
+        // to get just one result:
+        // $product = $qb->setMaxResults(1)->getOneOrNullResult();
+    }
+
 
     // /**
     //  * @return Reservation[] Returns an array of Reservation objects

@@ -36,6 +36,16 @@ class Reservation
      */
     private $fin;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Pointage", mappedBy="reservation", cascade={"persist", "remove"})
+     */
+    private $pointage;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $etat;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -85,6 +95,41 @@ class Reservation
     public function setFin(\DateTimeInterface $fin): self
     {
         $this->fin = $fin;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return 'Reservation n°'.$this->getId();
+    }
+
+    public function getPointage(): ?Pointage
+    {
+        return $this->pointage;
+    }
+
+    public function setPointage(?Pointage $pointage): self
+    {
+        $this->pointage = $pointage;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newReservation = $pointage === null ? null : $this;
+        if ($newReservation !== $pointage->getReservation()) {
+            $pointage->setReservation($newReservation);
+        }
+
+        return $this;
+    }
+
+    public function getEtat(): ?bool
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(bool $etat): self
+    {
+        $this->etat = $etat;
 
         return $this;
     }

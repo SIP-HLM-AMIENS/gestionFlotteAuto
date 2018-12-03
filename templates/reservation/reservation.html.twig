@@ -19,47 +19,72 @@
     <br />
     <div class="row">
         <div class="col-lg-6">
-            {{form_row(form.debut,  {'label': 'Date :'})}}
-            <br/>
-            <label>Heure :</label>
-            <input type="text" size="2">:
-            <input type="text" size="2">
+            <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+                <div class="card-header">Début</div>
+                <div class="card-body">
+                    <h4 class="card-title">Horaires</h4>
+                    <label>Date :</label>
+                    {{form_widget(form.debut.date)}}
+                    <br/>
+                    <label>Heure :</label>
+                    {{form_widget(form.debut.time)}}
+                </div>
+            </div>      
         </div>
         <div class="col-lg-6">
-            {{form_row(form.fin, {'label': 'Date :'})}}
-            <br/>
-            <label>Heure :</label>
-            <input type="text" size="2">:
-            <input type="text" size="2">
+            <div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
+                <div class="card-header">Fin</div>
+                <div class="card-body">
+                    <h4 class="card-title">Horaires</h4>
+                    <label>Date :</label>
+                    {{form_widget(form.fin.date,  {'label': 'Date :'})}}
+                    <br/>
+                    <label>Heure :</label>
+                    {{form_widget(form.fin.time)}}
+                </div>
+            </div>
         </div>
     </div>
+    <br />
 
     <!--  Chargement     -->
     {% if charger == true %}
-    <div class="row">
-        {{form_row(form.load.setRendered())}}
-    </div>
-    <br/>
-    <hr></hr>
-    <br/>
-    <div class="row">
-        <div class="col-lg-12">
-            <p>Voitures de service disponible :</p>
+        <div class="row">
+            {{form_row(form.load.setRendered())}}
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12">
-            {{form_row(form.voiture)}}
+
+        <br/>
+        <hr></hr>
+        <br/>
+        {% if localité == "interne" %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Voitures de service disponible :</p>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Aucune voiture du serivce disponible</p>
+                    <p>Autres voitures disponible :</p>
+                </div>
+            </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-lg-12">
+                <select id="voitureChoisie" name="voitureChoisie">
+                    {% for voiture in voitures %}
+                        <option value="{{ voiture }}">Voiture n°{{ voiture }} - {{voiture.service.nom}} </option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
-    </div>
+        <br />
+        {{form_row(form.save)}}
     {% else %}
-    <div class="row">
-        {{form_row(form.load)}}
-    </div>
-    <br/>
-    <div class="row">
-        {{form_row(form.voiture.setRendered())}}
-    </div>
+        <div class="row">
+            {{form_row(form.load)}}
+        </div>
     {% endif %}
     <!--                                                   -->
 

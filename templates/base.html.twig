@@ -4,7 +4,9 @@
         <meta charset="UTF-8">
         <title>{% block title %}Gestion flotte automobile{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset ('build/app.css') }}">
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('bundles/fullcalendar/css/fullcalendar/fullcalendar.min.css') }}" />
+        {% endblock %}
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -33,6 +35,9 @@
                         <a class="nav-link" href="{{ path('reservation') }}">Reserver un véhicule</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ path('pointage') }}">Pointer une reservation</a>
+                    </li>
+                    <li class="nav-item">
                         <a href="#" class="nav-link">
                             Déconnexion
                         </a>
@@ -45,6 +50,45 @@
         {% block body %}{% endblock %}
         </div>
         <script src=" {{ asset ( 'build/app.js' ) }}"></script>
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('bundles/fullcalendar/js/fullcalendar/lib/jquery.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/fullcalendar/js/fullcalendar/lib/moment.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/fullcalendar/js/fullcalendar/fullcalendar.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/fullcalendar/js/fullcalendar/locale/fr.js') }}"></script>
+
+            <script type="text/javascript">
+                $(function () {
+                    $('#calendar-holder').fullCalendar({
+                        locale: 'fr',
+                        header: {
+                            left: 'prev, next, today',
+                            center: 'title',
+                            right: 'month, agendaWeek, agendaDay'
+                        },
+                        businessHours: {
+                            start: '08:00',
+                            end: '18:00',
+                            dow: [1, 2, 3, 4, 5]
+                        },
+                        scrollTime:'08:00:00',
+                        defaultView: 'agendaWeek',
+                        lazyFetching: true,
+                        navLinks: true,
+                        selectable: true,
+                        editable: true,
+                        eventDurationEditable: true,
+                        eventSources: [
+                            {
+                                url: '/chargementCalendrier',
+                                error: function () {
+                                    alert('There was an error while fetching FullCalendar!');
+                                }
+                            }
+                        ]
+                    });
+                });
+            </script>
+        
+        {% endblock %}
     </body>
 </html>

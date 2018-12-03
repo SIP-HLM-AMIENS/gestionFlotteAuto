@@ -47,4 +47,15 @@ class VoitureRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findOutsideService($id)
+    {
+        return $this->createQueryBuilder('v')
+            ->andWhere('v.service != :id ')
+            ->setParameter('id', $id)
+            ->orderBy('v.id','ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "easycorp/easyadmin-bundle": "^1.17",
+        "friendsofsymfony/jsrouting-bundle": "^2.2",
         "symfony/asset": "*",
         "symfony/console": "*",
         "symfony/flex": "^1.1",
@@ -15,7 +16,8 @@
         "symfony/validator": "*",
         "symfony/web-server-bundle": "*",
         "symfony/webpack-encore-bundle": "^1.0",
-        "symfony/yaml": "*"
+        "symfony/yaml": "*",
+        "toiba/fullcalendar-bundle": "^6.2"
     },
     "require-dev": {
         "symfony/dotenv": "*",
