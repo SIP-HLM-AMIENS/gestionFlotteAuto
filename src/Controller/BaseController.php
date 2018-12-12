@@ -14,7 +14,7 @@ class BaseController extends AbstractController
      */
     public function index()
     {
-        return $this->render('base/index.html.twig', [
+        return $this->render('base/accueil.html.twig', [
             'controller_name' => 'BaseController',
         ]);
     }
@@ -45,7 +45,7 @@ class BaseController extends AbstractController
         foreach($reservations as $reservation){
             $e = array();
             $e['id'] = $reservation->getId();
-            $e['title'] = 'Voiture N°'.$reservation->getVoiture().' ';
+            $e['title'] = 'Voiture N°'.$reservation->getVoiture().' '.$reservation->getPersonne()->getUsername();
             $e['start'] = $reservation->getDebut()->format('Y-m-d H:i');
             $e['end'] = $reservation->getFin()->format('Y-m-d H:i');
             if($reservation->getEtat())
@@ -63,6 +63,48 @@ class BaseController extends AbstractController
             }
             $e['allDay'] = false;
             array_push($calendrier, $e);
+        }
+        
+
+        return new JsonResponse($calendrier);
+        /********************************* */
+    }
+
+
+    /**
+     * @Route("/chargementCalendrier2", name="chargementCalendrier2")
+     */
+    public function chargementCalendrier2()
+    {
+        $user = $this->getUser();
+        $service = $user->getService();
+        foreach($service->getUtilisateurs() as $personne)
+        {
+            $reservations = $personne->getReservations();
+
+            $calendrier = array();
+            foreach($reservations as $reservation){
+                $e = array();
+                $e['id'] = $reservation->getId();
+                $e['title'] = $reservation->getPersonne()->getUsername();
+                $e['start'] = $reservation->getDebut()->format('Y-m-d H:i');
+                $e['end'] = $reservation->getFin()->format('Y-m-d H:i');
+                if($reservation->getEtat())
+                {
+                $e['color'] = 'green';
+                }
+                else
+                {
+                    if($reservation->getDebut() > new \Datetime('NOW'))
+                    {
+                        $e['color'] = 'yellow';
+                    }
+                    else
+                        $e['color'] = 'red';
+                }
+                $e['allDay'] = false;
+                array_push($calendrier, $e);
+            }
         }
         
 
