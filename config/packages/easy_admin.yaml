@@ -1,11 +1,21 @@
 easy_admin:
     entities:
 #        # List the entity class name you want to manage
-        - App\Entity\Voiture
+#        - App\Entity\Voiture
 #        - App\Entity\Category
-        - App\Entity\Utilisateurs
-        - App\Entity\Service
-        - App\Entity\Reservation
+#        - App\Entity\Utilisateurs
+#        - App\Entity\Service
+#        - App\Entity\Reservation
+        Utilisateurs:
+            class: App\Entity\Utilisateurs
+            form:
+                fields: ['email', 'password', 'plainPassword', 'service', 'voitures']
+        Voiture:
+            class: App\Entity\Voiture
+        Service:
+            class: App\Entity\Service
+        Reservation:
+            class: App\Entity\Reservation
 
     site_name: 'Administration'
     design:
@@ -13,4 +23,4 @@ easy_admin:
                 - { entity: 'Utilisateurs', icon: 'user' }
                 - { entity: 'Voiture', icon: 'car' }
                 - { entity: 'Service'}
-                - { entity: 'Reservation', icon: 'clock' }
+                - { entity: 'Reservation' }
