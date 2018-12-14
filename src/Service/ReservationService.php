@@ -8,7 +8,7 @@ use App\Entity\Utilisateurs;
 
 class ReservationService
 {
-    public function GetVoituresDispoService(Utilisateurs $user, DateTime $debutP, DateTime $finP)
+    public function GetVoituresDispoService(Utilisateurs $user, DateTime $debutP, DateTime $fin, int $place)
     {
         if($user != null)
         {
@@ -44,7 +44,7 @@ class ReservationService
 
     }
 
-    public function GetVoituresDispo(Array $voitures, DateTime $debutP, DateTime $finP)
+    public function GetVoituresDispo(Array $voitures, DateTime $debutP, DateTime $finP, int $place)
     {
         $voituresDispo = null;
         foreach($voitures as $voiture)

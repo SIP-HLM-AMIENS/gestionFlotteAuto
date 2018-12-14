@@ -45,6 +45,32 @@
             {% include '@FullCalendar/Calendar/calendar.html.twig' %}
         </div>
     </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="text-center">Pointages orphelins</h3>
+            {% if pointages|length != 0 %}
+                {% for pointage in pointages %}
+                <div class="card border-primary mb-3" style="max-width: 20rem;">
+                    <div class="card-header">Pointage n°{{pointage.id}}</div>
+                    <div class="card-body">
+                        <h4 class="card-title">Pointage n°{{pointage.id}}</h4>
+                        <p class="card-text">{{pointage.sortie|date("d/m/Y H:i", "Europe/Paris")}} -> {{pointage.entree|date("d/m/Y H:i", "Europe/Paris")}}</p>
+                        <p class="card-text">Voiture n°{{ pointage.voiture }} </p>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="card border-primary mb-3" style="max-width: 20rem;">
+                    <div class="card-header">Pointage</div>
+                    <div class="card-body">
+                        <h4 class="card-title">Pas de pointage</h4>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
 
 </div>
 <script>

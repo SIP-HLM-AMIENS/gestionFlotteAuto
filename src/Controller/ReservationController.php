@@ -29,14 +29,15 @@ class ReservationController extends AbstractController
             if($form->get('load')->isClicked())
             {   
                 //charger les voitures du service disponible
-                $voitures = $RS->GetVoituresDispoService($this->getUser(), $reservation->getDebut(), $reservation->getFin());
+                $voitures = $RS->GetVoituresDispoService($this->getUser(), $reservation->getDebut(), $reservation->getFin(),$reservation->getOptplace());
                 $service = 'interne';
                 if($voitures == null)
                 {
                     $service ='externe';
                     $voituresTemp = $em->findOutsideService($this->getUser()->getService()->getId());
-                    $voitures = $RS->GetVoituresDispo($voituresTemp, $reservation->getDebut(), $reservation->getFin());
+                    $voitures = $RS->GetVoituresDispo($voituresTemp, $reservation->getDebut(), $reservation->getFin(), $reservation->getOptPlace());
                 }
+
                 return $this->render('reservation/reservation.html.twig', [
                     'form' => $form->createView(),
                     'charger' => true,

@@ -8,6 +8,7 @@ use App\Entity\Reservation;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PointageController extends AbstractController
@@ -49,5 +50,60 @@ class PointageController extends AbstractController
         return $this->render('pointage/index.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+    /**
+     * @Route("/association", name="association")
+     */
+    public function association(Request $req, ObjectManager $manager)
+    {
+        $form = $this->createFormBuilder()
+        ->add('save', SubmitType::class, array(
+                'label' => 'Associer !',
+                'attr' => array('class'=>'btn btn-primary')
+                )
+            )
+        ->getForm();
+        
+        $form->handleRequest($req);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            if(isset($_POST['pointageCheck'])&& isset($_POST['reservationCheck']))
+            {
+                $emReservation = $this->getDoctrine()->getRepository(Reservation::class);
+                $reservation = $emReservation->find($_POST['reservationCheck']);
+                $emPointage = $this->getDoctrine()->getRepository(Pointage::class);
+                $pointage = $emPointage->find($_POST['pointageCheck']);
+
+                $reservation->setPointage($pointage);
+                $reservation->setEtat(true);
+                $manager->persist($reservation);
+                $manager->flush();
+            }
+        }
+
+        $user = $this->getUser();
+        $repoReservation = $this->getDoctrine()->getRepository(Reservation::class);
+        $reservations = $repoReservation->findBy(
+            [
+            'personne'=> $user->getId(),
+            'etat' => false
+            ]
+        );
+
+        $repoPointage = $this->getDoctrine()->getRepository(Pointage::class);
+        $pointages = $repoPointage->findBy(
+            [
+                'reservation'=> null,
+                'utilisateur'=>$user->getId()
+            ]
+        );
+
+        return $this->render('pointage/association.html.twig', [
+            'reservations' => $reservations,
+            'pointages' => $pointages,
+            'form' => $form->createView()
+        ]);
+
     }
 }

@@ -56,6 +56,16 @@ class Pointage
      */
     private $reservation;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs", inversedBy="pointages")
+     */
+    private $utilisateur;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Voiture", inversedBy="pointages")
+     */
+    private $voiture;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -155,5 +165,34 @@ class Pointage
         $this->reservation = $reservation;
 
         return $this;
+    }
+
+    public function getUtilisateur(): ?Utilisateurs
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Utilisateurs $utilisateur): self
+    {
+        $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+    public function getVoiture(): ?Voiture
+    {
+        return $this->voiture;
+    }
+
+    public function setVoiture(?Voiture $voiture): self
+    {
+        $this->voiture = $voiture;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return 'Pointage n°'.$this->getId();
     }
 }

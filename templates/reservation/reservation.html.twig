@@ -19,28 +19,50 @@
     <br />
     <div class="row">
         <div class="col-lg-6">
-            <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+            <div class="card text-white bg-primary">
                 <div class="card-header">Début</div>
                 <div class="card-body">
                     <h4 class="card-title">Horaires</h4>
-                    <label>Date :</label>
-                    {{form_widget(form.debut.date)}}
-                    <br/>
-                    <label>Heure :</label>
-                    {{form_widget(form.debut.time)}}
+                    <div class="offset-2">
+                        <label>Date :</label>
+                        {{form_widget(form.debut.date)}}
+                        <br/>
+                        <div class="form-inline">
+                            <label>Heure :</label>
+                            {{form_widget(form.debut.time)}}
+                        </div>
+                    </div>
                 </div>
             </div>      
         </div>
         <div class="col-lg-6">
-            <div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
+            <div class="card text-white bg-secondary">
                 <div class="card-header">Fin</div>
                 <div class="card-body">
                     <h4 class="card-title">Horaires</h4>
-                    <label>Date :</label>
-                    {{form_widget(form.fin.date,  {'label': 'Date :'})}}
-                    <br/>
-                    <label>Heure :</label>
-                    {{form_widget(form.fin.time)}}
+                    <div class="offset-2">
+                        <label>Date :</label>
+                        {{form_widget(form.fin.date,  {'label': 'Date :'})}}
+                        <br/>
+                        <div class="form-inline">
+                            <label>Heure :</label>
+                            {{form_widget(form.fin.time)}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-header">Options</div>
+                <div class="card-body">
+                    <div class="offset-2">
+                        <label>Nombre de places souhaitées :</label>
+                        {{form_widget(form.optPlace)}}
+                    </div>
                 </div>
             </div>
         </div>
@@ -74,7 +96,7 @@
             <div class="col-lg-12">
                 <select id="voitureChoisie" name="voitureChoisie">
                     {% for voiture in voitures %}
-                        <option value="{{ voiture }}">Voiture n°{{ voiture }} - {{voiture.service.nom}} </option>
+                        <option value="{{ voiture.id }}">Voiture n°{{ voiture }} - {{voiture.service.nom}} </option>
                     {% endfor %}
                 </select>
             </div>

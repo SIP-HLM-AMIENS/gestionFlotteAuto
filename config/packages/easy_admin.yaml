@@ -16,6 +16,8 @@ easy_admin:
             class: App\Entity\Service
         Reservation:
             class: App\Entity\Reservation
+        Pointage:
+            class: App\Entity\Pointage
 
     site_name: 'Administration'
     design:
@@ -24,3 +26,4 @@ easy_admin:
                 - { entity: 'Voiture', icon: 'car' }
                 - { entity: 'Service'}
                 - { entity: 'Reservation' }
+                - { entity: 'Pointage' }

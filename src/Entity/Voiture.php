@@ -38,9 +38,15 @@ class Voiture
      */
     private $reservations;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Pointage", mappedBy="voiture")
+     */
+    private $pointages;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
+        $this->pointages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -114,6 +120,37 @@ class Voiture
             // set the owning side to null (unless already changed)
             if ($reservation->getVoiture() === $this) {
                 $reservation->setVoiture(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Pointage[]
+     */
+    public function getPointages(): Collection
+    {
+        return $this->pointages;
+    }
+
+    public function addPointage(Pointage $pointage): self
+    {
+        if (!$this->pointages->contains($pointage)) {
+            $this->pointages[] = $pointage;
+            $pointage->setVoiture($this);
+        }
+
+        return $this;
+    }
+
+    public function removePointage(Pointage $pointage): self
+    {
+        if ($this->pointages->contains($pointage)) {
+            $this->pointages->removeElement($pointage);
+            // set the owning side to null (unless already changed)
+            if ($pointage->getVoiture() === $this) {
+                $pointage->setVoiture(null);
             }
         }
 

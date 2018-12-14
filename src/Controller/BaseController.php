@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Pointage;
 use App\Entity\Reservation;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,10 +27,13 @@ class BaseController extends AbstractController
     {
         $user = $this->getUser();
         $repository = $this->getDoctrine()->getRepository(Reservation::class);
+        $repoPointage = $this->getDoctrine()->getRepository(Pointage::class);
         $reservations = $repository->findFutureReservationByUser($user->getId());
+        $pointages = $repoPointage->findBy(['reservation'=> null, 'utilisateur'=>$user->getId()]);
         return $this->render('base/index.html.twig', [
             'controller_name' => 'BaseController',
-            'reservations' => $reservations
+            'reservations' => $reservations,
+            'pointages' => $pointages
         ]);
     }
 

@@ -36,6 +36,12 @@ class ReservationType extends AbstractType
                 'time_widget' => 'choice',
                 'minutes' => array('0','15','30','45')
             ))
+            ->add('optPlace', ChoiceType::class, array(
+                'choices'  => array(
+                    'Indifférent' => 0,
+                    '2 places' => 2,
+                    '4 places' => 4)
+            ))
             ->add('load', SubmitType::class, array('label' => 'Charger', 'attr' => ['class' => 'btn btn-primary']));
             
             $builder->addEventListener(

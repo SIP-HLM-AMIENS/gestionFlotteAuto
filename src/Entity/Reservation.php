@@ -46,6 +46,8 @@ class Reservation
      */
     private $etat;
 
+    private $optPlace;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -130,6 +132,18 @@ class Reservation
     public function setEtat(bool $etat): self
     {
         $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getOptPlace(): ?int
+    {
+        return $this->optPlace;
+    }
+
+    public function setOptPlace(int $optPlace): self
+    {
+        $this->optPlace = $optPlace;
 
         return $this;
     }
