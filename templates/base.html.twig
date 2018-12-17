@@ -34,11 +34,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('reservation') }}">Reserver un véhicule</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('pointage') }}">Pointer une reservation</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('association') }}">Associer un pointage</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Pointage</a>
+                        <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
+                            <a class="dropdown-item" href="{{ path('pointage') }}">Pointer une reservation</a>
+                            <a class="dropdown-item" href="{{ path('association') }}">Associer un pointage</a>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a href="{{ path('app_logout')}}" class="nav-link">
@@ -74,12 +75,13 @@
                             dow: [1, 2, 3, 4, 5]
                         },
                         scrollTime:'08:00:00',
+                        hiddenDays: [ 6, 0 ],
                         defaultView: 'agendaWeek',
                         lazyFetching: true,
                         navLinks: true,
                         selectable: true,
-                        editable: true,
-                        eventDurationEditable: true,
+                        editable: false,
+                        eventDurationEditable: false,
                         eventSources: [
                             {
                                 url: '/chargementCalendrier',

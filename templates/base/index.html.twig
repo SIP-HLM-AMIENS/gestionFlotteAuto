@@ -3,75 +3,70 @@
 {% block title %}Tableau de bord !{% endblock %}
 
 {% block body %}
-
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="text-center">Votre tableau de bord</h1>
-        </div>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="text-center">Votre tableau de bord</h1>
     </div>
-    <br />
-    <div class="row" style="min-height:200px">
-        <div class="col-lg-4">
-            <h3 class="text-center">Prochaines réservations</h3>
-            {% if reservations|length != 0 %}
-                {% for resa in reservations %}
-                <div class="card border-primary mb-3" style="max-width: 20rem;">
-                    <div class="card-header">Reservation n°{{resa.id}}</div>
-                    <div class="card-body">
-                        <h4 class="card-title">Reservation n°{{resa.id}}</h4>
-                        <p class="card-text">{{resa.debut|date("d/m/Y H:i", "Europe/Paris")}} -> {{resa.fin|date("d/m/Y H:i", "Europe/Paris")}}</p>
-                        <p class="card-text">Voiture n°{{ resa.voiture }} </p>
-                    </div>
+</div>
+<br />
+<div class="row" style="min-height:200px">
+    <div class="col-lg-3">
+        <h3 class="text-center">Prochaines réservations</h3>
+        {% if reservations|length != 0 %}
+            {% for resa in reservations %}
+            <div class="card border-primary mb-3" style="max-width: 20rem;">
+                <div class="card-header">Reservation n°{{resa.id}}</div>
+                <div class="card-body">
+                    <h4 class="card-title">Reservation n°{{resa.id}}</h4>
+                    <p class="card-text">{{resa.debut|date("d/m/Y H:i", "Europe/Paris")}} -> {{resa.fin|date("d/m/Y H:i", "Europe/Paris")}}</p>
+                    <p class="card-text">Voiture n°{{ resa.voiture }}</p>
                 </div>
-                {% endfor %}
-            {% else %}
-                <div class="card border-primary mb-3" style="max-width: 20rem;">
-                    <div class="card-header">Reservation</div>
-                    <div class="card-body">
-                        <h4 class="card-title">Pas de réservation</h4>
-                    </div>
-                </div>
-            {% endif %}
-        </div>
-        <div class='col-lg-8'>
-             <h3 class="text-center">Agenda</h3>
-            <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" id="btn-personnelle" class="btn" onclick="afficheCalendrierPerso()"> Personnel</buttton>
-                <button type="button" id="btn-service" class="btn btn-secondary" onclick='afficheCalendrierService()'> Service</buttton>
             </div>
-            <br />
-            <br />
-            {% include '@FullCalendar/Calendar/calendar.html.twig' %}
-        </div>
-    </div>
-    <br />
-    <div class="row">
-        <div class="col-lg-12">
-            <h3 class="text-center">Pointages orphelins</h3>
-            {% if pointages|length != 0 %}
-                {% for pointage in pointages %}
-                <div class="card border-primary mb-3" style="max-width: 20rem;">
-                    <div class="card-header">Pointage n°{{pointage.id}}</div>
-                    <div class="card-body">
-                        <h4 class="card-title">Pointage n°{{pointage.id}}</h4>
-                        <p class="card-text">{{pointage.sortie|date("d/m/Y H:i", "Europe/Paris")}} -> {{pointage.entree|date("d/m/Y H:i", "Europe/Paris")}}</p>
-                        <p class="card-text">Voiture n°{{ pointage.voiture }} </p>
-                    </div>
+            {% endfor %}
+        {% else %}
+            <div class="card border-primary mb-3" style="max-width: 20rem;">
+                <div class="card-header">Reservation</div>
+                <div class="card-body">
+                    <h4 class="card-title">Pas de réservation</h4>
                 </div>
-                {% endfor %}
-            {% else %}
-                <div class="card border-primary mb-3" style="max-width: 20rem;">
-                    <div class="card-header">Pointage</div>
-                    <div class="card-body">
-                        <h4 class="card-title">Pas de pointage</h4>
-                    </div>
-                </div>
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
     </div>
-
-
+    <div class='col-lg-9'>
+            <h3 class="text-center" id='titre-agenda'>Agenda</h3>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" id="btn-personnelle" class="btn btn-primary" onclick="afficheCalendrierPerso()"> Personnel</buttton>
+            <button type="button" id="btn-service" class="btn" onclick='afficheCalendrierService()'> Service</buttton>
+        </div>
+        <br />
+        <br />
+        {% include '@FullCalendar/Calendar/calendar.html.twig' %}
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="text-center">Pointages orphelins</h3>
+        {% if pointages|length != 0 %}
+            {% for pointage in pointages %}
+            <div class="card border-primary mb-3" style="max-width: 20rem;">
+                <div class="card-header">Pointage n°{{pointage.id}}</div>
+                <div class="card-body">
+                    <h4 class="card-title">Pointage n°{{pointage.id}}</h4>
+                    <p class="card-text">{{pointage.sortie|date("d/m/Y H:i", "Europe/Paris")}} -> {{pointage.entree|date("d/m/Y H:i", "Europe/Paris")}}</p>
+                    <p class="card-text">Voiture n°{{ pointage.voiture }} </p>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="card border-primary mb-3" style="max-width: 20rem;">
+                <div class="card-header">Pointage</div>
+                <div class="card-body">
+                    <h4 class="card-title">Pas de pointage</h4>
+                </div>
+            </div>
+        {% endif %}
+    </div>
 </div>
 <script>
 function afficheCalendrierService(){
@@ -79,8 +74,9 @@ function afficheCalendrierService(){
     $('#calendar-holder').fullCalendar('removeEventSource', '/chargementCalendrier' )   
     $('#calendar-holder').fullCalendar('addEventSource', '/chargementCalendrier2');
     //$('#calendar-holder').fullCalendar('rerenderEvents');
-    $('#btn-service').removeClass("btn-secondary");
-    $('#btn-personnelle').addClass("btn-secondary");
+    $('#btn-personnelle').removeClass("btn-primary");
+    $('#btn-service').addClass("btn-primary");
+    $('#titre-agenda').text("Agenda du Service");
 }
 
 function afficheCalendrierPerso(){
@@ -88,8 +84,9 @@ function afficheCalendrierPerso(){
     $('#calendar-holder').fullCalendar('removeEventSource', '/chargementCalendrier2' )     
     $('#calendar-holder').fullCalendar('addEventSource', '/chargementCalendrier');
     //$('#calendar-holder').fullCalendar('rerenderEvents');
-    $('#btn-personnelle').removeClass("btn-secondary");
-    $('#btn-service').addClass("btn-secondary");
+    $('#btn-service').removeClass("btn-primary");
+    $('#btn-personnelle').addClass("btn-primary");
+    $('#titre-agenda').text("Agenda");
 }
 </script>
 {% endblock %}

@@ -82,9 +82,9 @@ class BaseController extends AbstractController
     {
         $user = $this->getUser();
         $service = $user->getService();
-        foreach($service->getUtilisateurs() as $personne)
+        foreach($service->getVoitures() as $voiture)
         {
-            $reservations = $personne->getReservations();
+            $reservations = $voiture->getReservations();
 
             $calendrier = array();
             foreach($reservations as $reservation){

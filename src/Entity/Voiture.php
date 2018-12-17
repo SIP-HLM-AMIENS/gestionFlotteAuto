@@ -43,6 +43,11 @@ class Voiture
      */
     private $pointages;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $Libelle;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -80,7 +85,7 @@ class Voiture
 
     public function __toString()
     {
-        return $this->getNumero();
+        return ''.$this->getNumero().' - '.$this->getLibelle();
     }
 
     public function getResponsable(): ?Utilisateurs
@@ -153,6 +158,18 @@ class Voiture
                 $pointage->setVoiture(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLibelle(): ?string
+    {
+        return $this->Libelle;
+    }
+
+    public function setLibelle(string $Libelle): self
+    {
+        $this->Libelle = $Libelle;
 
         return $this;
     }
