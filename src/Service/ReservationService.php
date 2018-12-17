@@ -8,7 +8,7 @@ use App\Entity\Utilisateurs;
 
 class ReservationService
 {
-    public function GetVoituresDispoService(Utilisateurs $user, DateTime $debutP, DateTime $fin, int $place)
+    public function GetVoituresDispoService(Utilisateurs $user, DateTime $debutP, DateTime $finP, int $place)
     {
         if($user != null)
         {
