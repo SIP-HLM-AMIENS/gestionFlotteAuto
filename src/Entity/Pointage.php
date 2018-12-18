@@ -66,6 +66,11 @@ class Pointage
      */
     private $voiture;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $destination;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -194,5 +199,17 @@ class Pointage
     public function __toString()
     {
         return 'Pointage n°'.$this->getId();
+    }
+
+    public function getDestination(): ?string
+    {
+        return $this->destination;
+    }
+
+    public function setDestination(string $destination): self
+    {
+        $this->destination = $destination;
+
+        return $this;
     }
 }

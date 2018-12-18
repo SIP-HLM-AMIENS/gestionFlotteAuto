@@ -1,0 +1,33 @@
+{# templates/emails/reservation.html.twig #}
+<p>Bonjour,</p>
+<p>Une nouvelle reservation est arrivé pour votre véhicule.</p>
+<hr>
+<header>
+    Récapitulatif de la réservation
+</header>
+<hr>
+<table style="width:90%; padding-left:10%">
+<tbody>
+	<td>
+		<section>
+			<p>Reservation n°{{ reservation.id }}</p>
+			<p>Reservataire : {{ reservation.personne }}</p>
+			<p>Début : {{ reservation.debut|date("d/m/Y H:i", "Europe/Paris") }}</p>
+			<p>Fin : {{ reservation.fin|date("d/m/Y H:i", "Europe/Paris") }}</p>
+		</section>
+	</td>
+	<td>
+		<section>
+			<p>Voiture n° {{ reservation.voiture.numero }}</p>
+			<p>Modèle : {{ reservation.voiture.libelle }}</p>
+			<p>Emplacement : {{ reservation.voiture.emplacement }}</p>
+		</section>
+	</td>
+</table>
+<br />
+<br />
+<footer>
+    <hr>
+</footer>
+<p>Cordialement,</p>
+<p>Votre application "<strong>Gestion Flotte Automobile</strong>"</p>

@@ -91,6 +91,6 @@ class RecupPointageCommand extends ContainerAwareCommand
             }
 
         }
-        $io->success("T'as vu ?");
+        $io->success("Récupération des pointages terminé avec succes !");
     }
 }

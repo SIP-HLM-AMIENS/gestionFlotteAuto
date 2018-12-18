@@ -48,6 +48,16 @@ class Voiture
      */
     private $Libelle;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $emplacement;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $kilometrage;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -170,6 +180,30 @@ class Voiture
     public function setLibelle(string $Libelle): self
     {
         $this->Libelle = $Libelle;
+
+        return $this;
+    }
+
+    public function getEmplacement(): ?string
+    {
+        return $this->emplacement;
+    }
+
+    public function setEmplacement(string $emplacement): self
+    {
+        $this->emplacement = $emplacement;
+
+        return $this;
+    }
+
+    public function getKilometrage(): ?int
+    {
+        return $this->kilometrage;
+    }
+
+    public function setKilometrage(int $kilometrage): self
+    {
+        $this->kilometrage = $kilometrage;
 
         return $this;
     }

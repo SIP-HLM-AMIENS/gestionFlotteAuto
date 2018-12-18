@@ -56,6 +56,10 @@ class PointageType extends AbstractType
                 'choices' => $options['reservations']
 
             ))
+            ->add('destination', TextType::class,array(
+                'label' => 'Destination',
+                'attr' => array('class' => 'form-control')
+            ))
 
             ->add('valider', SubmitType::class, array(
                 'attr' => array('class'=>'btn btn-success')

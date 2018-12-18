@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Récapitulatif{% endblock %}
+
+{% block body %}
+<div class="jumbotron">
+    <h1 class="display-3">Reservation enregistrée</h1>
+    <hr class="my-4">
+    <p class="lead">Récapitulatif de votre réservation</p>
+    <div class="row">
+        <div class="col-6">
+            <p>Reservation n°{{ reservation.id }}</p>
+            <p>Début : {{ reservation.debut|date("d/m/Y H:i", "Europe/Paris") }}</p>
+            <p>Fin : {{ reservation.fin|date("d/m/Y H:i", "Europe/Paris") }}</p>
+        </div>
+        <div class="col-6">
+            <p>Voiture n° {{ reservation.voiture.numero }}</p>
+            <p>Modèle : {{ reservation.voiture.libelle }}</p>
+            <p>Emplacement : {{ reservation.voiture.emplacement }}</p>
+            <p>Responsable : {{ reservation.voiture.Responsable }}</p>
+        </div>
+    </div>
+    <hr class="my-4">
+    <p class="lead">
+        <a class="btn btn-primary btn-lg" href="{{ path('tableauDeBord') }}" role="button">Retour au tableau de bord</a>
+    </p>
+</div>
+{% endblock %}

@@ -16,7 +16,7 @@ class ReservationController extends AbstractController
     /**
      * @Route("/reservation", name="reservation")
      */
-    public function index(Request $req, ReservationService $RS, ObjectManager $manager)
+    public function index(Request $req, ReservationService $RS, ObjectManager $manager, \Swift_Mailer $mailer)
     {
         $reservation = new Reservation();
         $reservation->setPersonne($this->getUser());
@@ -55,12 +55,14 @@ class ReservationController extends AbstractController
                 $manager->persist($reservation);
                 $manager->flush();
 
-                /*if($arret->getVisiteReprise() == 1)
-                {
-                    $this->EnvoyerMail($mailer);
-                }*/
 
-                return $this->redirectToRoute('tableauDeBord');
+                $this->EnvoyerMail($mailer, $reservation);
+                
+
+                return $this->render('reservation/recapitulatif.html.twig', [
+                    'reservation' => $reservation
+                
+                ]);
             }
 
 
@@ -71,4 +73,22 @@ class ReservationController extends AbstractController
             'charger' => false,
         ]);
     }
+
+    public function EnvoyerMail(\Swift_Mailer $mailer, $reservation)
+    {
+        $message = (new \Swift_Message('Reservation de véhicule'))
+        ->setFrom('Leconte.kevin@sip-picardie.com')
+        ->setTo('Leconte.kevin@sip-picardie.com')
+        ->setBody(
+            $this->renderView(
+                'emails/reservation.html.twig', 
+                [
+                    'reservation' => $reservation
+                ]
+            ),
+            'text/html'
+        );
+        $mailer->send($message);
+    }
+
 }
