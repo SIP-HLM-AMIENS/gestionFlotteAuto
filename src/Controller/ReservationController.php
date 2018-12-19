@@ -77,8 +77,12 @@ class ReservationController extends AbstractController
     public function EnvoyerMail(\Swift_Mailer $mailer, $reservation)
     {
         $message = (new \Swift_Message('Reservation de véhicule'))
-        ->setFrom($reservation->getPersonne()->getEmail())
-        ->setTo($reservation->getVoiture()->getResponsable()->getEmail())
+        ->setFrom('flotte.auto@sip-picardie.com')
+        ->setTo(
+            [
+                $reservation->getPersonne()->getEmail(),
+                $reservation->getVoiture()->getResponsable()->getEmail()
+            ])
         ->setBcc('leconte.kevin@sip-picardie.com')
         ->setBody(
             $this->renderView(

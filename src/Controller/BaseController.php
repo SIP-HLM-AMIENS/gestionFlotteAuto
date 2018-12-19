@@ -54,16 +54,21 @@ class BaseController extends AbstractController
             $e['end'] = $reservation->getFin()->format('Y-m-d H:i');
             if($reservation->getEtat())
             {
-               $e['color'] = 'green';
+               $e['color'] = '#B0F2B6';
+               $e['textColor'] ='black';
             }
             else
             {
                 if($reservation->getDebut() > new \Datetime('NOW'))
                 {
-                    $e['color'] = 'yellow';
+                    $e['color'] = '#FEF86C';
+                    $e['textColor'] ='black';
                 }
                 else
-                    $e['color'] = 'red';
+                {
+                    $e['color'] = '#C72C48';
+                    $e['textColor'] ='white';
+                }
             }
             $e['allDay'] = false;
             array_push($calendrier, $e);
