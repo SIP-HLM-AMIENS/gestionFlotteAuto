@@ -45,7 +45,7 @@ class RecupPointageCommand extends ContainerAwareCommand
         {   
             $output->write($ligne['id']);
             $output->write(' | ');
-            $output->write($ligne['matriculation']);
+            $output->write($ligne['immatriculation']);
             $output->write(' | ');
             $output->write($ligne['Depart']);
             $output->write(' | ');
@@ -69,7 +69,7 @@ class RecupPointageCommand extends ContainerAwareCommand
             {
                 $PM = new PointageMobile();
                 $PM->setIdPointage($ligne['id']);
-                $PM->setImmatriculation($ligne['matriculation']);
+                $PM->setImmatriculation($ligne['immatriculation']);
                 $PM->setDepart($ligne['Depart']);
                 $PM->setKilometrage($ligne['kilometrage']);
                 $PM->setHeureDepart($ligne['heuredepart']);

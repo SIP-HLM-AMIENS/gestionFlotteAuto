@@ -95,22 +95,27 @@ class BaseController extends AbstractController
             foreach($reservations as $reservation){
                 $e = array();
                 $e['id'] = $reservation->getId();
-                $e['title'] = $reservation->getPersonne()->getUsername();
+                $e['title'] = 'Voiture N°'.$reservation->getVoiture().' '.$reservation->getPersonne()->getUsername();
                 $e['start'] = $reservation->getDebut()->format('Y-m-d H:i');
                 $e['end'] = $reservation->getFin()->format('Y-m-d H:i');
                 if($reservation->getEtat())
                 {
-                $e['color'] = 'green';
-                }
-                else
-                {
-                    if($reservation->getDebut() > new \Datetime('NOW'))
-                    {
-                        $e['color'] = 'yellow';
-                    }
-                    else
-                        $e['color'] = 'red';
-                }
+                    $e['color'] = '#B0F2B6';
+                    $e['textColor'] ='black';
+                 }
+                 else
+                 {
+                     if($reservation->getDebut() > new \Datetime('NOW'))
+                     {
+                         $e['color'] = '#FEF86C';
+                         $e['textColor'] ='black';
+                     }
+                     else
+                     {
+                         $e['color'] = '#C72C48';
+                         $e['textColor'] ='white';
+                     }
+                 }
                 $e['allDay'] = false;
                 array_push($calendrier, $e);
             }

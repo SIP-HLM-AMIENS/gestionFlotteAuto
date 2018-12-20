@@ -33,7 +33,7 @@
         {% endif %}
     </div>
     <div class='col-lg-9'>
-            <h3 class="text-center" id='titre-agenda'>Agenda</h3>
+            <h3 class="text-center" id='titre-agenda'>Agenda personnel</h3>
         <div class="btn-group" role="group" aria-label="Basic example">
             <button type="button" id="btn-personnelle" class="btn btn-primary" onclick="afficheCalendrierPerso()"> Personnel</buttton>
             <button type="button" id="btn-service" class="btn" onclick='afficheCalendrierService()'> Service</buttton>
@@ -76,7 +76,7 @@ function afficheCalendrierService(){
     //$('#calendar-holder').fullCalendar('rerenderEvents');
     $('#btn-personnelle').removeClass("btn-primary");
     $('#btn-service').addClass("btn-primary");
-    $('#titre-agenda').text("Agenda du Service");
+    $('#titre-agenda').text("Agenda du service");
 }
 
 function afficheCalendrierPerso(){
@@ -86,7 +86,7 @@ function afficheCalendrierPerso(){
     //$('#calendar-holder').fullCalendar('rerenderEvents');
     $('#btn-service').removeClass("btn-primary");
     $('#btn-personnelle').addClass("btn-primary");
-    $('#titre-agenda').text("Agenda");
+    $('#titre-agenda').text("Agenda personnel");
 }
 </script>
 {% endblock %}
