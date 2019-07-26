@@ -36,3 +36,5 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/base, roles: ROLE_USER }
         - { path: ^/reservation, roles: ROLE_USER }
+        - { path: ^/gestionVoiture, roles: ROLE_USER }
+        - { path: ^/pointage, roles: ROLE_USER }

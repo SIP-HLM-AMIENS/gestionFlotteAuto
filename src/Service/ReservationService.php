@@ -21,17 +21,24 @@ class ReservationService
                 foreach($voitures as $voiture)
                 {
                     $Dispo = true;
-                    //Récupération des reservations de la voiture
-                    foreach($voiture->getReservations() as $reservation)
-                    {
-                        $début = $reservation->getDebut();
-                        $fin = $reservation->getFin();
-
-                        //vérification de la disponibiltée de la voiture pour la période donnée
-                        if(($debutP < $fin)&&($finP > $début))
+                    //vérification etat de la voiture
+                    if($voiture->getEtat() == true)
+                    {   //Récupération des reservations de la voiture
+                        foreach($voiture->getReservations() as $reservation)
                         {
-                            $Dispo=false;
-                        }
+                            $début = $reservation->getDebut();
+                            $fin = $reservation->getFin();
+
+                            //vérification de la disponibiltée de la voiture pour la période donnée
+                            if(($debutP < $fin)&&($finP > $début))
+                            {
+                                $Dispo=false;
+                            }
+                        } 
+                    }
+                    else
+                    {
+                        $Dispo = false;
                     }
                     if($Dispo)
                     {
@@ -48,10 +55,12 @@ class ReservationService
     {
         $voituresDispo = null;
         foreach($voitures as $voiture)
-        {
-            if($this->IsVoitureDispo($voiture, $debutP, $finP))
+        {   if($voiture->getEtat() == true) // Filtre sur les voiture à l'etat dispo
             {
-                $voituresDispo[] = $voiture;
+                if($this->IsVoitureDispo($voiture, $debutP, $finP))
+                {
+                    $voituresDispo[] = $voiture;
+                }
             }
         }
         return $voituresDispo;

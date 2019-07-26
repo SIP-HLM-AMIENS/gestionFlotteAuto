@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes véhicules{% endblock %}
+
+{% block body%}
+<div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Réservation N°</th>
+                <th>Personne</th>
+                <th>Debut</th>
+                <th>Fin</th>
+            </tr>
+        </thead>
+        <tbody>
+{% for reservation in voiture.reservations %}    
+        <tr>
+            <td>{{ reservation.id }}</td>
+            <td>{{ reservation.personne }}</td>
+            <td>{{ reservation.debut|date("d/m/Y H:i", "Europe/Paris")}}</td>
+            <td>{{ reservation.fin|date("d/m/Y H:i", "Europe/Paris") }}</td>
+        </tr>
+{% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

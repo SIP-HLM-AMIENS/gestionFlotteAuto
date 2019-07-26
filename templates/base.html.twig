@@ -7,6 +7,7 @@
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('bundles/fullcalendar/css/fullcalendar/fullcalendar.min.css') }}" />
         {% endblock %}
+        <script src=" {{ asset ( 'build/app.js' ) }}"></script>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -35,12 +36,18 @@
                         <a class="nav-link" href="{{ path('reservation') }}">Reserver un véhicule</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Pointage</a>
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mes réservations</a>
                         <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 40px, 0px);">
                             <a class="dropdown-item" href="{{ path('pointage') }}">Pointer une reservation</a>
                             <a class="dropdown-item" href="{{ path('association') }}">Associer un pointage</a>
+                            <a class="dropdown-item" href="{{ path('annulation') }}">Annuler une réservation</a>
                         </div>
                     </li>
+                    {% if app.user.voitures|length != 0 %}
+                    <li class="nav-item">
+                        <a href="{{ path('gestionVoiture') }}" class="nav-link">Mes véhicules</a>
+                    </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a href="{{ path('app_logout')}}" class="nav-link">
                             Déconnexion
@@ -53,7 +60,6 @@
         <div class="container">
         {% block body %}{% endblock %}
         </div>
-        <script src=" {{ asset ( 'build/app.js' ) }}"></script>
         {% block javascripts %}
             <script type="text/javascript" src="{{ asset('bundles/fullcalendar/js/fullcalendar/lib/jquery.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/fullcalendar/js/fullcalendar/lib/moment.min.js') }}"></script>

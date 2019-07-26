@@ -9,6 +9,7 @@
 require('../css/app.css');
 
 var $ = require('jquery');
+global.$ = global.jQuery = $;
 
 require('bootstrap-datepicker');
 require('bootstrap-datepicker/js/locales/bootstrap-datepicker.fr');
@@ -27,5 +28,7 @@ $(document).ready(function() {
         language: 'fr'
     });
 });
+
+
 
 

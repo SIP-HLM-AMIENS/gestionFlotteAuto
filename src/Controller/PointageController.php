@@ -84,10 +84,22 @@ class PointageController extends AbstractController
                 $emPointage = $this->getDoctrine()->getRepository(Pointage::class);
                 $pointage = $emPointage->find($_POST['pointageCheck']);
 
-                $reservation->setPointage($pointage);
-                $reservation->setEtat(true);
-                $manager->persist($reservation);
-                $manager->flush();
+                //Filtre sur les dates
+                $dateDebut = date('m/d/Y', $reservation->getDebut());
+                $dateSortie = date('m/d/Y', $pointage->getSortie());
+                $dateFin = date('m/d/Y', $reservation->getFin());
+                $dateEntree = date('m/d/Y', $pointage->getEntree());
+                if($dateDebut == $dateSortie && $dateFin == $dateEntree)
+                {
+                    $reservation->setPointage($pointage);
+                    $reservation->setEtat(true);
+                    $manager->persist($reservation);
+                    $manager->flush();
+                }
+                else
+                {
+                    //Mettre message d'erreur
+                }
             }
         }
 
@@ -113,6 +125,74 @@ class PointageController extends AbstractController
             'pointages' => $pointages,
             'form' => $form->createView()
         ]);
+
+    }
+
+    /**
+     * @Route("/annulation", name="annulation")
+     */
+    public function annulation()
+    {
+        $user = $this->getUser();
+        $reservations = $user->getReservations();
+        foreach ($user->getReservations() as $reservation)
+        {
+            if($reservation->getEtat() == FALSE)
+            {
+                $NP[] = $reservation;
+            }
+        }
+
+        return $this->render('pointage/annulation.html.twig',
+        [
+            'reservations' => $NP
+        ]);
+    }
+    /**
+     * @Route("/annulation/{id}", name="annulerReservation")
+     */
+
+    public function annulerReservation($id, ObjectManager $manager)
+    {
+        //verification que l'utilisateur veut bien annuler sa réservation
+        $user = $this->getUser();
+        $repository = $this->getDoctrine()->getRepository(Reservation::class);
+        $suppression = $repository->findOneBy(
+            [
+             'id'=> $id,
+             'personne' => $user->getId()
+            ]
+        );
+
+        if(isset($suppression))
+        {
+            $manager->remove($suppression);
+            $manager->flush();
+        }
+
+
+        $reservations = $user->getReservations();
+        foreach ($user->getReservations() as $reservation)
+        {
+            if($reservation->getEtat() == FALSE)
+            {
+                $NP[] = $reservation;
+            }
+        }
+
+        return $this->render('pointage/annulation.html.twig',
+        [
+            'reservations' => $NP
+        ]);
+        
+
+        
+        return $this->render('base/index.html.twig',
+        [
+            
+        ]);
+
+
 
     }
 }

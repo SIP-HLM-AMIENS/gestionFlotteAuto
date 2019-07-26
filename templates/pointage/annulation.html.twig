@@ -1,0 +1,73 @@
+
+{% extends 'base.html.twig' %}
+
+
+
+{% block title %}Annulation{% endblock %}
+
+{% block body %}
+
+<div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Réservation N°</th>
+                <th>Personne</th>
+                <th>Debut</th>
+                <th>Fin</th>
+                <th>Etat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reservation in reservations %}    
+            <tr>
+                <td>{{ reservation.id }}</td>
+                <td>{{ reservation.personne }}</td>
+                <td>{{ reservation.debut|date("d/m/Y H:i", "Europe/Paris")}}</td>
+                <td>{{ reservation.fin|date("d/m/Y H:i", "Europe/Paris") }}</td>
+                {% if reservation.etat == true %}
+                    <td style="color:green">Pointé</td>
+                {% else %}
+                    <td style="color:red">Non Pointé</td>
+                {% endif %}
+                
+                <td>
+                    <a href="#" class="btn btn-primary" data-href="{{ path('annulerReservation',{id:reservation.id})}}" data-toggle="modal" data-target="#confirm-delete">-</a><br>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Confirmer la suppression</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+            
+                <div class="modal-body">
+                    <p>Attention ! Vous allez supprimer cette réservation</p>
+                    <p>Voulez-vous continuer ?</p>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Annuler</button>
+                    <a class="btn btn-danger btn-ok">Supprimer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+        $('#confirm-delete').on('show.bs.modal', function(e) {
+            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+        });
+    </script>
+{% endblock %}

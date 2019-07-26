@@ -1,0 +1,23 @@
+{{ form_start(form) }}
+    <div class="row">
+        <label class="col-3">Début : </label>
+        <div class="col-9">{{ form_widget(form.dateDebut)}}</div>
+    </div>
+    <div class="row">
+        <label class="col-3">Limite : </label>
+        <div class="col-9">{{ form_widget(form.dateLimite)}}</div>
+    </div>
+    <div class="row">
+        <label class="col-3">Voiture :</label>
+        <div class="col-9">{{form_widget(form.voiture)}}</div>
+    </div>
+    <br />
+	<div class="form-group row">
+		<div class="col-sm-8"></div>
+		<div class="col-sm-4">
+			<button type="submit" class="btn btn-primary" data-label="Enregistrer">
+				Enregistrer
+			</button>
+		</div>
+	</div>
+{{ form_end(form) }}

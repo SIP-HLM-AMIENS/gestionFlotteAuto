@@ -58,10 +58,39 @@ class Voiture
      */
     private $kilometrage;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Entretien", mappedBy="voiture")
+     */
+    private $entretiens;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Suivi", mappedBy="voiture")
+     */
+    private $suivis;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Controle", mappedBy="voiture")
+     */
+    private $controles;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Assurance", mappedBy="voiture")
+     */
+    private $assurances;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $etat;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
         $this->pointages = new ArrayCollection();
+        $this->entretiens = new ArrayCollection();
+        $this->suivis = new ArrayCollection();
+        $this->controles = new ArrayCollection();
+        $this->assurances = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -204,6 +233,142 @@ class Voiture
     public function setKilometrage(int $kilometrage): self
     {
         $this->kilometrage = $kilometrage;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Entretien[]
+     */
+    public function getEntretiens(): Collection
+    {
+        return $this->entretiens;
+    }
+
+    public function addEntretien(Entretien $entretien): self
+    {
+        if (!$this->entretiens->contains($entretien)) {
+            $this->entretiens[] = $entretien;
+            $entretien->setVoiture($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEntretien(Entretien $entretien): self
+    {
+        if ($this->entretiens->contains($entretien)) {
+            $this->entretiens->removeElement($entretien);
+            // set the owning side to null (unless already changed)
+            if ($entretien->getVoiture() === $this) {
+                $entretien->setVoiture(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Suivi[]
+     */
+    public function getSuivis(): Collection
+    {
+        return $this->suivis;
+    }
+
+    public function addSuivi(Suivi $suivi): self
+    {
+        if (!$this->suivis->contains($suivi)) {
+            $this->suivis[] = $suivi;
+            $suivi->setVoiture($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSuivi(Suivi $suivi): self
+    {
+        if ($this->suivis->contains($suivi)) {
+            $this->suivis->removeElement($suivi);
+            // set the owning side to null (unless already changed)
+            if ($suivi->getVoiture() === $this) {
+                $suivi->setVoiture(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Controle[]
+     */
+    public function getControles(): Collection
+    {
+        return $this->controles;
+    }
+
+    public function addControle(Controle $controle): self
+    {
+        if (!$this->controles->contains($controle)) {
+            $this->controles[] = $controle;
+            $controle->setVoiture($this);
+        }
+
+        return $this;
+    }
+
+    public function removeControle(Controle $controle): self
+    {
+        if ($this->controles->contains($controle)) {
+            $this->controles->removeElement($controle);
+            // set the owning side to null (unless already changed)
+            if ($controle->getVoiture() === $this) {
+                $controle->setVoiture(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Assurance[]
+     */
+    public function getAssurances(): Collection
+    {
+        return $this->assurances;
+    }
+
+    public function addAssurance(Assurance $assurance): self
+    {
+        if (!$this->assurances->contains($assurance)) {
+            $this->assurances[] = $assurance;
+            $assurance->setVoiture($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAssurance(Assurance $assurance): self
+    {
+        if ($this->assurances->contains($assurance)) {
+            $this->assurances->removeElement($assurance);
+            // set the owning side to null (unless already changed)
+            if ($assurance->getVoiture() === $this) {
+                $assurance->setVoiture(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getEtat(): ?bool
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(bool $etat): self
+    {
+        $this->etat = $etat;
 
         return $this;
     }

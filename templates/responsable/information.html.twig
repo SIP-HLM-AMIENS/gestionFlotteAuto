@@ -1,0 +1,300 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes véhicules{% endblock %}
+
+{% block body %}
+    <br/>
+    <div id='voitureid' style="display:none">{{voiture.id}}</div>
+    <div class="row">
+        <div class="col-12">
+            <div class="jumbotron">
+                <h2 class="">{{voiture.libelle}}</h2>
+                <hr />
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group row">
+                            <label class="col-form-label col-6" for="staticEmail">Etat</label>
+                            <div class="col-6" id="badge">
+                            {% if voiture.etat %}
+                                <span class="badge badge-success">Actif</span>
+                            {% else %}
+                                <span class="badge badge-danger">Inactif</span>
+                            {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-6" for="staticEmail">Immatriculation</label>
+                            <div class="col-6">
+                                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{voiture.numero}}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-6" for="staticEmail">Emplacement</label>
+                            <div class="col-6">
+                                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{voiture.emplacement}}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-6" for="staticEmail">Kilométrage</label>
+                            <div class="col-6">
+                                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{voiture.kilometrage}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#controleModal">
+                            Nouveau Contrôle technique
+                        </button><br/><br />
+                        <button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#entretienModal">
+                            Nouvel entretien
+                        </button><br/><br />
+                        <button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#suiviModal">
+                            Nouveau suivi
+                        </button>
+                    </div>
+                    <div class="col-4">
+                    
+                        <a type="button" id="a-toggle" class="btn btn-danger form-control" onClick="toggleEtat({{ voiture.id }})" style="color:white">
+                            {% if voiture.etat %}
+                                Désactiver
+                            {% else %}
+                                Activer
+                            {% endif %}
+                        </a>                   
+                        <br/><br/>
+                        <a type="button" class="btn btn-info form-control" href="{{ path('listeReservation',{id:voiture.id})}}">
+                            Reservation
+                        </a><br/><br/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-12">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active show" data-toggle="tab" href="#home">Contrôle Technique & Assurance</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link show" data-toggle="tab" href="#entretien">Entretiens</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link show" data-toggle="tab" href="#suivis">Suivis</a>
+                </li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade active show" id="home">
+                    <br />
+                    <div class="row">
+                        <div class="col-6" style="border-right:1px solid black">
+                            <h4>Contrôle technique</h4>
+                            <p>Valable du {{ controle.dateDebut|date("d/m/Y", "Europe/Paris") }} au {{ controle.dateLimite|date("d/m/Y", "Europe/Paris") }}</p>
+                        </div>
+                        <div class="col-6">
+                            <h4>Assurance</h4>
+                            <p>Couverture du {{ assurance.dateDebut|date("d/m/Y", "Europe/Paris") }} au {{ assurance.dateLimite|date("d/m/Y", "Europe/Paris") }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="entretien">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Commentaire</th>
+                                <th>Kilométrage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entretien in voiture.entretiens %}
+                                <tr>
+                                    <td>{{ entretien.date|date("d/m/Y", "Europe/Paris") }}</td>
+                                    <td>{{ entretien.commentaire }}</td>
+                                    <td>{{ entretien.kilometrage}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="suivis">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Commentaire</th>
+                                <th>Kilométrage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for suivi in voiture.suivis %}
+                                <tr>
+                                    <td>{{ suivi.date|date("d/m/Y H:i", "Europe/Paris") }}</td>
+                                    <td>{{ suivi.commentaire }}</td>
+                                    <td>{{ suivi.kilometrage}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="controleModal" tabindex="-1" role="dialog" aria-labelledby="controleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="controleModalLabel">Nouveau controle technique</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="entretienModal" tabindex="-1" role="dialog" aria-labelledby="entretienModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="entretienModalLabel">Nouvel entretien</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="suiviModal" tabindex="-1" role="dialog" aria-labelledby="suiviModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="suiviModalLabel">Nouvel suivi</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"></script>
+<script type="text/javascript">
+		//CONTROLE
+        
+        $('#controleModal').on('shown.bs.modal', function () {
+			var modal = $(this);
+            var id = $('#voitureid').html();
+            var route = '{{ path("controle_create",{"id":"xxx"})}}';
+			$.ajax(route.replace("xxx",id), {
+				success: function(data) {
+					modal.find('.modal-body').html(data);
+				}
+			});
+		});
+
+        //ENTRETIEN   
+
+        $('#entretienModal').on('shown.bs.modal', function () {
+			var modal = $(this);
+            var id = $('#voitureid').html();
+            var route = '{{ path("entretien_create",{"id":"xxx"})}}';
+			$.ajax(route.replace("xxx",id), {
+				success: function(data) {
+					modal.find('.modal-body').html(data);
+				}
+			});
+		});  
+
+        //SUIVI
+
+        $('#suiviModal').on('shown.bs.modal', function () {
+			var modal = $(this);
+            var id = $('#voitureid').html();
+            var route = '{{ path("suivi_create",{"id":"xxx"})}}';
+			$.ajax(route.replace("xxx",id), {
+				success: function(data) {
+					modal.find('.modal-body').html(data);
+				}
+			});
+		});  
+
+        //Envoie de formulaire
+
+        $(document).on('submit', 'form', function(e){
+			// il est impératif de commencer avec cette méthode qui va empêcher le navigateur d'envoyer le formulaire lui-même
+            e.preventDefault();
+
+            $form = $(e.target);
+            //modal = $('#controleModal');
+
+			var title = "test";
+            
+        	var $submitButton = $form.find(':submit');
+            console.log($submitButton);
+            modal = $submitButton.parent().parent().parent().parent().parent();
+            console.log(modal);
+
+    		$submitButton.html('<i class="fas fa-spinner fa-pulse"></i>');
+    		$submitButton.prop('disabled', true);
+
+			// ajaxSubmit du plugin ajaxForm nécessaire pour l'upload de fichier
+			$form.ajaxSubmit({
+				type: 'post',
+				success: function(data) {
+					if (data == 'ok') {
+						$('ul').append('<li>' + title + '</li>');
+						modal.modal('toggle');
+					} else {
+						modal.find('.modal-body').html(data);
+					}
+				},
+				error: function(jqXHR, status, error) {
+					  $submitButton.html(button.data('label'));
+					  $submitButton.prop('disabled', false);
+				}
+			});
+        });
+
+        function toggleEtat($id)
+        {
+            var route = '{{ path("toggle_voiture",{id:"xxx"})}}';
+            $.ajax({
+                url: route.replace("xxx",$id),
+                type: 'POST',
+                success: function(reponse) {
+                    var badge = $('#badge');
+                    var button = $('#a-toggle');
+                    if(reponse == "true")
+                    {
+                        badge.html('<span class="badge badge-success">Actif</span>');
+                        button.text('Desactiver');
+                    }
+                    else
+                    {
+                        badge.html('<span class="badge badge-danger">Inactif</span>');
+                        button.text('Activer');
+                    }
+
+                },		
+                error: function(jqXHR, status, error) {
+                    console.log(error);
+				}
+            });
+        }
+
+
+</script>
+{% endblock %}
