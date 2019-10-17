@@ -34,12 +34,15 @@ class PointageController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
+            $reservation = $pointage->getReservation();
+
+            $pointage->setVoiture($reservation->getVoiture());
+            $pointage->setUtilisateur($user);
             $this->addFlash('Ok','Action validée');
             //persistance du pointage
             $manager->persist($pointage);
 
             //association reservation -> pointage
-            $reservation = $pointage->getReservation();
             $reservation->setEtat(true);
 
             //Mise a jour emplacement véhicule

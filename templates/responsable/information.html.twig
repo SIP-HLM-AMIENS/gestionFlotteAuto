@@ -90,11 +90,15 @@
                     <div class="row">
                         <div class="col-6" style="border-right:1px solid black">
                             <h4>Contrôle technique</h4>
-                            <p>Valable du {{ controle.dateDebut|date("d/m/Y", "Europe/Paris") }} au {{ controle.dateLimite|date("d/m/Y", "Europe/Paris") }}</p>
+                            {% if controle is not null %}
+                                <p>Valable du {{ controle.dateDebut|date("d/m/Y", "Europe/Paris") }} au {{ controle.dateLimite|date("d/m/Y", "Europe/Paris") }}</p>
+                            {% endif %}
                         </div>
                         <div class="col-6">
                             <h4>Assurance</h4>
-                            <p>Couverture du {{ assurance.dateDebut|date("d/m/Y", "Europe/Paris") }} au {{ assurance.dateLimite|date("d/m/Y", "Europe/Paris") }}</p>
+                            {% if assurance is not null %}
+                                <p>Couverture du {{ assurance.dateDebut|date("d/m/Y", "Europe/Paris") }} au {{ assurance.dateLimite|date("d/m/Y", "Europe/Paris") }}</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

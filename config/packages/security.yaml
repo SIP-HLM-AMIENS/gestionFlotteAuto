@@ -38,3 +38,4 @@ security:
         - { path: ^/reservation, roles: ROLE_USER }
         - { path: ^/gestionVoiture, roles: ROLE_USER }
         - { path: ^/pointage, roles: ROLE_USER }
+        - { path: ^/stats, roles: ROLE_ADMIN }

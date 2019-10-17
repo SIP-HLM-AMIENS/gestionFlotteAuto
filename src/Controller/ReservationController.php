@@ -25,9 +25,19 @@ class ReservationController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
+            $this->get("security.csrf.token_manager")->refreshToken("form_intention");
             $em = $this->getDoctrine()->getRepository(Voiture::class);
             if($form->get('load')->isClicked())
             {   
+                //Vérification des horaires renseignés
+                if($reservation->getDebut() >= $reservation->getFin())
+                {
+                    return $this->render('reservation/reservation.html.twig', [
+                        'form' => $form->createView(),
+                        'charger' => false,
+                    ]);
+                }
+
                 //charger les voitures du service disponible
                 $voitures = $RS->GetVoituresDispoService($this->getUser(), $reservation->getDebut(), $reservation->getFin(),$reservation->getOptplace());
                 $service = 'interne';
@@ -55,17 +65,11 @@ class ReservationController extends AbstractController
                 $manager->persist($reservation);
                 $manager->flush();
 
-
                 $this->EnvoyerMail($mailer, $reservation);
-                
-
                 return $this->render('reservation/recapitulatif.html.twig', [
                     'reservation' => $reservation
-                
                 ]);
             }
-
-
         }
 
         return $this->render('reservation/reservation.html.twig', [

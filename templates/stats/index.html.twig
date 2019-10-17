@@ -1,0 +1,147 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello {{ controller_name }}!{% endblock %}
+
+{% block body %}
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Mois</label>
+        <select class="form-control" id="mois">
+            <option value="01">Janvier</option>
+            <option value="02">Février</option>
+            <option value="03">Mars</option>
+            <option value="04">Avril</option>
+            <option value="05">Mai</option>
+            <option value="06">Juin</option>
+            <option value="07">Juillet</option>
+            <option value="08">Août</option>
+            <option value="09">Septembre</option>
+            <option value="10">Octobre</option>
+            <option value="11">Novembre</option>
+            <option value="12">Décembre</option>
+        </select>
+    <div>
+    <div id="div_mois" class="col-12"></div>
+    <div id="div_ex" class="col-12"></div>
+    <hr />
+    <div class="col-12">
+        <div class="col-12 jumbotron">
+            <form action="{{ path('export') }}" method="post" name="exportation">
+                <label>Début </label><input type="date" id="dateIn" name="_dateIn"/>
+                <label>Fin </label><input type="date" id="dateOut" name="_dateOut"/>
+                <input type="button" class="btn btn-primary" onclick="chargerTableau()" value="Charger"/>
+                <input type="submit" class="btn btn-secondary" value="Extraire"/>
+            </form>
+        </div>
+        <table class="table">
+            <thead>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        {{ gc_draw([test], ['div_ex']) }}
+
+
+        function chargementMois($mois)
+        {
+            var route = '{{ path("majGraph",{mois:"xxx"})}}';
+            $.ajax({
+                url: route.replace("xxx",$mois),
+                type: 'POST',
+                dataType: 'JSON',
+                success: function(reponse) {
+                    afficheGraph(reponse);
+                },		
+                error: function(jqXHR, status, error) {
+                    console.log(error);
+				}
+            });
+        }
+
+        function afficheGraph(reponse)
+        {
+            var chart = new google.visualization.ColumnChart(document.getElementById('div_mois'));
+            var data = google.visualization.arrayToDataTable(reponse);
+            var options = {
+                width: 1200,
+                height : 500,
+                vAxis: {title: 'Taux d\'utilisation', format: 'percent', ticks :[0,0.25,0.50,0.75,1]},
+                hAxis: {title: 'Voiture'},
+            };
+            
+            chart.draw(data, options);
+        }
+
+        function chargerTableau()
+        {
+            var debut = $("#dateIn").val();
+            var fin = $("#dateOut").val();
+
+            console.log("debut :"+debut);
+            console.log("fin :"+fin);
+
+            var route = '{{ path("chargeTableau",{debut:"xxx", fin:"yyy"})}}';
+            $.ajax({
+                url: route.replace("xxx",debut).replace("yyy",fin),
+                type: 'POST',
+                dataType: 'JSON',
+                success: function(reponse)
+                {
+
+                    entete = true;
+                    $("thead").empty();
+                    $("tbody").empty();
+                    reponse.forEach(function ($valeur)
+                    {
+                        if(entete == true)
+                        {
+                            entete = false
+                            
+                            var ligne = $("<tr></tr>");
+                            for($i = 0; $i < $valeur.length; $i++ )
+                            {
+                                ligne.append($("<th>" + $valeur[$i] + "</th>"));
+                            }
+                            $("thead").append(ligne);
+                        }
+                        else
+                        {
+                            var ligne = $("<tr></tr>");
+                            for($i = 0; $i < $valeur.length; $i++ )
+                            {
+                                console.log($valeur[$i]);
+                                ligne.append($("<td>" + $valeur[$i] + "</td>"));
+                            }
+                            $("tbody").append(ligne);
+                        }
+                    })
+
+                },		
+                error: function(jqXHR, status, error) {
+                    console.log(error);
+				}
+            });
+            
+        }
+
+        $(document).ready(function(){
+            chargementMois($('#mois').val());
+
+            $('#mois').change(function(){
+                var mois = $(this).val();
+                if(mois != '')
+                {
+                    chargementMois(mois);
+                }
+            });
+        });
+
+    </script>
+</div>
+{% endblock %}

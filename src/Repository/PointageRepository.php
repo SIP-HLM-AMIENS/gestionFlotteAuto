@@ -47,4 +47,39 @@ class PointageRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByMois($voiture,$mois, $fdm): array
+    {
+        $from = new \DateTime(date('Y-m-d', mktime(0,0,0,$mois,1)));
+        $to = new \DateTime(date('Y-m-d', mktime(0,0,0,$mois,$fdm)));
+
+        $qb =  $this->createQueryBuilder('p')
+        ->leftjoin('p.reservation','r')
+        ->andWhere('p.sortie BETWEEN :from AND :to')
+        ->andWhere('r.voiture = :voiture')
+        ->setParameter('from', $from)
+        ->setParameter('to', $to)
+        ->setParameter('voiture', $voiture)
+        ->getQuery();
+
+        return $qb->execute();
+    }
+
+    public function findByJour($voiture, $jour): string
+    {
+        $date = \DateTime::createFromFormat('Y-m-d', $jour);
+
+        $qb = $this->createQueryBuilder('p')
+        ->leftjoin('p.reservation','r')
+        ->andWhere('p.sortie BETWEEN :from AND :to')
+        ->andWhere('r.voiture = :voiture')
+        ->setParameter('from', $date->format('Y-m-d 00:00:00'))
+        ->setParameter('to', $date->format('Y-m-d 23:59:59'))
+        ->setParameter('voiture', $voiture)
+        ->select('COUNT(p)')
+        ->getQuery();
+        
+
+        return $qb->getSingleScalarResult();
+    }
 }

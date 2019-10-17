@@ -48,6 +48,11 @@
                         <a href="{{ path('gestionVoiture') }}" class="nav-link">Mes véhicules</a>
                     </li>
                     {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item">
+                        <a href="{{ path('stats') }}" class="nav-link">Statistiques</a>
+                    </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a href="{{ path('app_logout')}}" class="nav-link">
                             Déconnexion
