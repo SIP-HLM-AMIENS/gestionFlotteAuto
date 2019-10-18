@@ -21,6 +21,14 @@ class BaseController extends AbstractController
     }
 
     /**
+     * @Route("/informations", name="informations")
+     */
+    public function informations()
+    {
+        return $this->render('base/information.html.twig');
+    }
+
+    /**
      * @Route("/base", name="tableauDeBord")
      */
     public function tableauDeBord()

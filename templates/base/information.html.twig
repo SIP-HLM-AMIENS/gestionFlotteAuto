@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Informations{% endblock %}
+
+{% block body %}
+<br />
+<div class="row">
+    <div class="col-lg-12">
+        <div class="jumbotron">
+            <h1 class="text-center">Informations sur la version 1.1 - 18/10/2019</h1>
+            <hr />
+
+            <h3>Gestion du véhicule pour les reponsables</h3>
+            <div class="row">
+                <div class="col-8">
+                    <img src="{{ asset('build/ZoneResponsable.png') }}" class="img-fluid img-thumbnail">
+                </div>
+                <div class="col-4">
+                    <p>
+                        Nous avons ajouter un nouvelle zone pour les responsables de véhicules.
+                        Cette zone permet d'avoir des informations quant à celui-ci( Kilométrage, emplacement, etat, ...), mais aussi de le gérer.
+                    </p>
+                    <p>
+                        Le reponsable peut maintenant désactiver le véhicule de l'application dans le cas où celui-ci est inutilisable ou indisponible (accident, garage, ...)
+                    </p>
+                    <p> 
+                        Des informations peuvent être ajouté par le responsable, tel que le controle technique, les entretiens et les suivis.
+                    </p>
+                </div>
+            </div>
+            <hr />
+            <br />
+            <h3>Annulation des réservations</h3>
+            <div class="row">
+                <img src="{{ asset('build/AnnulationPointage.png') }}" class="img-fluid img-thumbnail">
+                <p>
+                    Vous avez maintenant la possibilité d'annuler vos réservations dans le cas d'erreur, ou d'annulation de rendez-vous.
+                </p>
+                <p>
+                    Pour cela, vous pouvez retrouver cette fonction dans <b>"Mes réservations > Annuler une réservation"</b>
+                </p>
+            </div>
+            <hr />
+            <br />
+            <h3>Gestion des réservations</h3>
+            <div class="row">
+                <div class="col-5">
+                    <img src="{{ asset('build/PointageMultiple.png') }}" class="img-fluid img-thumbnail">
+                </div>
+                <div class="col-7">
+                    <br />
+                    <p>
+                        La réservation des véhicules a été revu. Nous bloquons maintenant les réservation incohérentes ( Fin de réservation avant le début ).
+                    </p>
+                    <p>
+                        De plus, le problème de réservation multiple a été corrigé.
+                    </p>
+                </div>
+            </div>
+
+            <hr />
+            <p>
+                Dans les prochaines versions, nous essayerons d'améliorer la gestion des pointages, en automatisant l'étape "Association de pointages".
+            </p>
+            <p>
+                <b>Si vous avez des remarques, des demandes d'évolution, ou des soucis d'utilisation sur les applications web et mobile.<br />
+                Envoyez un mail au service informatique :)
+                </b>
+            </p>
+
+            <center><p>Bonne journée et bonne route</p></center>
+            <center><p><b>L'équipe informatique</b></p></center>
+        
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}
